@@ -6,7 +6,8 @@ class Solution {
         while(start <= end){
             long mid = start + (end - start)/2;
             long x = mid * (mid+1) / 2;
-            if(x <= n){
+            if( x == n ) return (int)mid;
+            if(x < n){
                 r = Math.max(mid , r);
                 start = mid + 1;
             }
