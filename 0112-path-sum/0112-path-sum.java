@@ -20,12 +20,9 @@ class Solution {
     
     public boolean helper(TreeNode root, int targetSum) {
         if(root == null) return false;
-        else if(root.left == null && root.right == null){
-            return (targetSum - root.val) == 0;
-        }
-        else {
-            return helper(root.left , targetSum - root.val) || helper(root.right , targetSum - root.val);
-        }
+        else if(root.left == null && root.right == null) return targetSum  == root.val;
+        return helper(root.left , targetSum - root.val) || helper(root.right , targetSum - root.val);
+        
         
     }
 }
