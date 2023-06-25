@@ -7,7 +7,6 @@ class Solution {
             int minNextJump = Math.min(minCost[i+1] , minCost[i+2]);
             minCost[i] = minNextJump + cost[i];
         }
-        System.out.println(minCost[1]);
         return minCost[0] > minCost[1] ? minCost[1] : minCost[0];
     }
 }
