@@ -7,10 +7,10 @@ class Solution {
                 stack.push(s.charAt(i));
             }else stack.pop();
         }
-        String x = "";
+        StringBuilder sb = new StringBuilder();
         while(!stack.isEmpty()){
-            x = stack.pop() + x;
+            sb.append(stack.pop());
         }
-        return x;
+        return sb.reverse().toString();
     }
 }
