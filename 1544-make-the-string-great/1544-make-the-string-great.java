@@ -14,8 +14,7 @@ class Solution {
         return sb.reverse().toString();
     }
     public boolean sameUpperLower(char lower , char upper){
-        int x = 'a' - 'A';
-        int upperI = x + upper;
+        int upperI = 32 + upper;
         return (lower - upperI) == 0;
     }
 }
