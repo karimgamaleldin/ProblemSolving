@@ -1,8 +1,8 @@
 class Solution {
     public int[] rearrangeArray(int[] nums) {
         Arrays.sort(nums);
-        boolean change = false;
-        do{
+        boolean change = true;
+        while(change){
             change = false;
             for(int i = 1 ; i < nums.length-1; i++){
                 int avg = nums[i-1] + nums[i+1];
@@ -14,7 +14,7 @@ class Solution {
                     change = true;
                 }
             }
-        }while(change);
+        }
         return nums;
     }
 }
