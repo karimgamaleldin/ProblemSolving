@@ -1,20 +1,15 @@
 class Solution {
     public int[] rearrangeArray(int[] nums) {
         Arrays.sort(nums);
-        boolean change = true;
-        while(change){
-            change = false;
-            for(int i = 1 ; i < nums.length-1; i++){
-                int avg = nums[i-1] + nums[i+1];
-                avg = avg/2;
-                if(avg == nums[i]){
-                    nums[i] ^= nums[i+1];
-                    nums[i+1] ^= nums[i];
-                    nums[i] ^= nums[i+1];
-                    change = true;
-                }
-            }
+        int i = 0 ; 
+        int j = nums.length - 1;
+        int k = 0;
+        int[] r = new int[nums.length];
+        while(i <= j){
+            r[k++] = nums[j--];
+            if(i < j) r[k++] = nums[i++];
         }
-        return nums;
+        
+        return r;
     }
 }
