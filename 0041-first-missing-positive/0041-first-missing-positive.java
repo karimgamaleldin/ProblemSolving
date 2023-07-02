@@ -11,9 +11,7 @@ class Solution {
             }
         }
         int num = 1;
-        for(int i = 0 ; i < nums.length ; i++){
-            if(nums[i] == num) num++;
-        }
+        while(num <= nums.length && nums[num - 1] == num) num++;
         return num;
         
     }
