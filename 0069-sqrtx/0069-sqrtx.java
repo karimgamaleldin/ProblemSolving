@@ -4,7 +4,6 @@ class Solution {
         long max = x/2 + 1;
         while(min <= max){
             long mid = (max + min) / 2;
-            System.out.println(mid);
             if(mid * mid == x || ((mid + 1) * (mid + 1) > x && mid * mid < x)) return (int) mid;
             else if((mid - 1) * (mid - 1) < x && mid * mid > x) return (int) (mid - 1);
             else if( mid*mid > x ) max = mid - 1;
