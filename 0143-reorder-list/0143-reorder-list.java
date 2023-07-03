@@ -23,7 +23,6 @@ class Solution {
             slow = slow.next;
         }
         slow = head;
-        System.out.println(s.size());
         while(!s.isEmpty()){
             ListNode temp = s.pop();
             temp.next = slow.next;
