@@ -18,12 +18,10 @@ class Solution {
             else fast = head;
         }
         if(fast == head) return head;
-        System.out.println(fast.val);
         while(fast.next != null){
             fast = fast.next;
             slow = slow.next;
         }
-        System.out.println(fast.val);
         ListNode r = slow.next;
         slow.next = null;
         fast.next = head;
