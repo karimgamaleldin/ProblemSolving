@@ -9,41 +9,25 @@
  * }
  */
 class Solution {
-public ListNode rotateRight(ListNode head, int k) {
-    if (head == null || head.next == null || k == 0) {
-        return head;
+    public ListNode rotateRight(ListNode head, int k) {
+        if(head == null || head.next == null || k == 0) return head;
+        ListNode slow = head;
+        ListNode fast = head;
+        for(int i = k ; i > 0 ; i--){
+            if(fast.next != null) fast = fast.next;
+            else fast = head;
+        }
+        if(fast == head) return head;
+        System.out.println(fast.val);
+        while(fast.next != null){
+            fast = fast.next;
+            slow = slow.next;
+        }
+        System.out.println(fast.val);
+        ListNode r = slow.next;
+        slow.next = null;
+        fast.next = head;
+        
+        return r;
     }
-
-    int length = 1;
-    ListNode tail = head;
-    while (tail.next != null) {
-        tail = tail.next;
-        length++;
-    }
-
-    k = k % length; // Adjust k to handle larger values
-
-    if (k == 0) {
-        return head;
-    }
-
-    ListNode slow = head;
-    ListNode fast = head;
-
-    for (int i = 0; i < k; i++) {
-        fast = fast.next;
-    }
-
-    while (fast.next != null) {
-        slow = slow.next;
-        fast = fast.next;
-    }
-
-    ListNode newHead = slow.next;
-    slow.next = null;
-    tail.next = head;
-
-    return newHead;
-}
-
 }
