@@ -19,14 +19,14 @@ class Solution {
         helper(root , root.val , root.val);
         return r;
     }
-    public void helper(TreeNode root , int max , int min){
-        if(root == null) return;
-        int pmax = Math.abs(max - root.val);
-        int pmin = Math.abs(min - root.val);
-        r = Math.max(r , Math.max(pmax , pmin));
-        int newMax = Math.max(max , root.val);
-        int newMin = Math.min(min , root.val);
-        helper(root.right , newMax , newMin);
-        helper(root.left , newMax , newMin);
+    public void helper(TreeNode root , int max , int min){ // max and min value hold the max and min value passed until now
+        if(root == null) return; // base case
+        int pmax = Math.abs(max - root.val); // the difference between max and root value
+        int pmin = Math.abs(min - root.val); // the difference between min and root value
+        r = Math.max(r , Math.max(pmax , pmin)); //updating r
+        int newMax = Math.max(max , root.val); // getting the new value of max 
+        int newMin = Math.min(min , root.val); // getting the new value of min
+        helper(root.right , newMax , newMin); // rec call
+        helper(root.left , newMax , newMin); // rec call
     }
 }
