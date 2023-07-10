@@ -6,16 +6,9 @@ class RecentCounter {
     
     public int ping(int t) {
         int size = q.size();
-        int c = 1;
-        for(int i = 0 ; i < size ; i++){
-            int x = q.poll();
-            if(t - x <= 3000){
-                c++;
-                q.offer(x);
-            }
-        }
+        for(int i = 0 ; i < size && q.peek() < t - 3000 ; i++) q.poll();
         q.offer(t);
-        return c;
+        return q.size();
     }
 }
 
