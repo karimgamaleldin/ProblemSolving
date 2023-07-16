@@ -3,15 +3,13 @@ class Solution {
         int left = 0;
         int count = 0;
         int p = 1;
-        for(int right = 0 ; right < nums.length ; right++){
+        for(int right = 0; right < nums.length ; right++){
             p *= nums[right];
-            if(p >= k){
-                while(left < nums.length && p >= k){
-                    p /= nums[left];
-                    left++;
-                }
+            while(left <= right && p >= k){
+                p /= nums[left];
+                left++;
             }
-            if(left < nums.length) count += right - left + 1;
+            count += right - left + 1;
         }
         return count;
         
