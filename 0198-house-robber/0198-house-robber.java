@@ -1,18 +1,32 @@
 class Solution {
-    // HashMap<Integer , Integer> memo = new HashMap<Integer , Integer>();
+    
     public int rob(int[] nums){
-        int[] tab = new int[nums.length];
-        if(nums.length == 1) return nums[0];
-        else if(nums.length == 2) return Math.max(nums[0] , nums[1]);
-        tab[0] = nums[0];
-        tab[1] = nums[1];
-        tab[2] = nums[2] + nums[0];
-        for(int i = 3 ; i < nums.length ; i++){
-            tab[i] = Math.max(tab[i-2] , tab[i-3]) + nums[i];
+        int n = nums.length;
+        if(n == 1) return nums[0];
+        int backT = nums[0];
+        int backO = Math.max(nums[0] , nums[1]);
+        for(int i = 2 ; i < n ; i++){
+            int temp = backO;
+            backO = Math.max(backO , backT + nums[i]);
+            backT = temp;
         }
-        return Math.max(tab[nums.length - 1] , tab[nums.length - 2]);
-        
+        return backO;
     }
+    
+    // HashMap<Integer , Integer> memo = new HashMap<Integer , Integer>();
+//     public int rob(int[] nums){
+//         int[] tab = new int[nums.length];
+//         if(nums.length == 1) return nums[0];
+//         else if(nums.length == 2) return Math.max(nums[0] , nums[1]);
+//         tab[0] = nums[0];
+//         tab[1] = nums[1];
+//         tab[2] = nums[2] + nums[0];
+//         for(int i = 3 ; i < nums.length ; i++){
+//             tab[i] = Math.max(tab[i-2] , tab[i-3]) + nums[i];
+//         }
+//         return Math.max(tab[nums.length - 1] , tab[nums.length - 2]);
+        
+//     }
     // public int rob(int[] nums) {
     //     if(nums.length == 1) return nums[0];
     //     return Math.max(dp(nums.length - 1 , nums) , dp(nums.length - 2 , nums)) ;
