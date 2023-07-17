@@ -4,7 +4,9 @@ class Solution {
         int ans = -1;
         for(int i = 0 ; i < nums.length ; i++){
             int key = getDigitSum(nums[i]);
-            if(map.containsKey(key)) ans = Math.max(ans , map.get(key) + nums[i]);
+            if(map.containsKey(key)){ 
+                ans = Math.max(ans , map.get(key) + nums[i]);
+            }
             map.put(key , Math.max(map.getOrDefault(key , -1) , nums[i]));
         }
         return ans;
