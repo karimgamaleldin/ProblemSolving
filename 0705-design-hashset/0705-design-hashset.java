@@ -1,19 +1,27 @@
 class MyHashSet {
-    boolean[] arr;
+    LinkedList<Integer>[] arr;
     public MyHashSet() {
-        arr = new boolean[10000000];
+        arr = new LinkedList[10000];
     }
     
     public void add(int key) {
-        arr[key] = true;
+        int index = key % 10000;
+        if(arr[index] == null){
+            arr[index] = new LinkedList<>();
+        }
+        if(!arr[index].contains(new Integer(key))) arr[index].add(key);
     }
     
     public void remove(int key) {
-        arr[key] = false;
+        int index = key % 10000;
+        if(arr[index] == null) return;
+        arr[index].remove(new Integer(key));
     }
     
     public boolean contains(int key) {
-        return arr[key];
+        int index = key % 10000;
+        if(arr[index] == null) return false;
+        return arr[index].contains(new Integer(key));
     }
 }
 
