@@ -7,6 +7,7 @@ class Solution {
             int t = sentence.charAt(i) - 'a';
             t = 1 << t;
             found |=  t;
+            if(found + 1 == all) return true;
         }
         return found + 1 == all;
     }
