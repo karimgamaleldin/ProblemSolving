@@ -3,14 +3,14 @@ class Solution {
         int n = s.length();
         int left = 0;
         int ans = 0;
-        Set<Character> set = new HashSet<Character>();
-        for(int right = 0 ; right < n ; right++){
-            while(set.contains(s.charAt(right))){
-                set.remove(s.charAt(left));
-                left++;
+        HashMap<Character , Integer> map = new HashMap<>();
+        for(int i = 0 ; i < n ; i++){
+            char c = s.charAt(i);
+            if(map.containsKey(c)){
+                if(map.get(c) >= left) left = map.get(c) + 1;
             }
-            set.add(s.charAt(right));
-            ans = Math.max(ans , right - left + 1);
+            map.put(c , i);
+            ans = Math.max(ans , i - left + 1);
         }
         return ans;
     }
