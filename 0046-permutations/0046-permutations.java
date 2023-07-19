@@ -4,16 +4,16 @@ class Solution {
         helper(nums, new LinkedList<>() , r);
         return r;
     }
-    public void helper(int[] nums , List<Integer> current , List<List<Integer>> result){
-        if(current.size() == nums.length){
-            result.add(new LinkedList<>(current));
+    public void helper(int[] nums , List<Integer> curr , List<List<Integer>> result){
+        if(curr.size() == nums.length){
+            result.add(new ArrayList<>(curr));
             return;
         }
-        for(int num : nums){
-            if(!current.contains(num)){
-                current.add(num);
-                helper(nums , current , result);
-                current.remove(current.size() - 1);
+        for(int i = 0 ; i < nums.length ; i++){
+            if(!curr.contains(nums[i])){
+                curr.add(nums[i]);
+                helper(nums , curr , result);
+                curr.remove(curr.size() - 1);
             }
         }
     }
