@@ -5,15 +5,13 @@ class Solution {
         backtrack(nums , c , r , 0);
         return r;
     }
-    public void backtrack(int[] nums , List<Integer> curr , List<List<Integer>> r , int i){
+    public void backtrack(int[] nums , List<Integer> curr , List<List<Integer>> r , int index){
         r.add(new ArrayList<>(curr));
-        if(curr.size() == nums.length){
-            return;
-        }
-        for(; i < nums.length ; i++){
-                curr.add(nums[i]);
-                backtrack(nums , curr , r , i + 1);
-                curr.remove(curr.size() - 1);
+        if(curr.size() == nums.length) return;
+        for(int i = index ; i < nums.length ; i++){
+            curr.add(nums[i]);
+            backtrack(nums , curr , r , i + 1);
+            curr.remove(curr.size() - 1);
         }
     }
 }
