@@ -2,19 +2,24 @@ class Solution {
     char[] par = new char[] {'(' , ')'};
     public List<String> generateParenthesis(int n) {
         List<String> r = new ArrayList<>();
-        backtrack(2 * n , r , new StringBuilder());
+        backtrack(n , r , new StringBuilder() , 0 , 0);
         return r;
     }
-    public void backtrack(int n , List<String> r , StringBuilder sb){
-        if(sb.length() == n){
-            String s = sb.toString();
-            if(check(s)) r.add(s);
+    public void backtrack(int n , List<String> r , StringBuilder sb , int left , int right){
+        String s = sb.toString();
+        if(sb.length() == n * 2){
+            r.add(s);
             return;
         }
-        for(char p : par){
-            sb.append(p);
-            backtrack(n , r , sb);
-            sb.delete(sb.length() - 1 , sb.length());
+        if(left < n){
+            sb.append('(');
+            backtrack(n , r , sb , left + 1, right);
+            sb.deleteCharAt(sb.length() - 1);
+        }
+        if(right < left){
+            sb.append(')');
+            backtrack(n , r , sb , left , right + 1);
+            sb.deleteCharAt(sb.length() - 1);
         }
     }
     public boolean check(String s){
@@ -28,6 +33,6 @@ class Solution {
                 stack.pop();
             }
         }
-        return stack.size() == 0;
+        return true;
     }
 }
