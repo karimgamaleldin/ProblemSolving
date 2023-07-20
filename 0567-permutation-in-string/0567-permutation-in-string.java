@@ -1,5 +1,6 @@
 class Solution {
     public boolean checkInclusion(String s1, String s2) {
+        if(s1.length() > s2.length()) return false;
         int n1 = s1.length();
         Map<Character, Integer> map = new HashMap<>();
         for(int i = 0 ; i < n1 ; i++) {
