@@ -1,26 +1,21 @@
 class Solution {
     public boolean isValid(String s) {
-        Map<Character, Character> matching = new HashMap();
-        matching.put('(', ')');
-        matching.put('[', ']');
-        matching.put('{', '}');
-        
+        Map<Character , Character> map = new HashMap<>();
+        map.put('(' , ')');
+        map.put('{' , '}');
+        map.put('[' , ']');
+        int n = s.length();
         Stack<Character> stack = new Stack<>();
-        for (char c: s.toCharArray()) {
-            if (matching.containsKey(c)) { // if c is an opening bracket
-                stack.push(c);
-            } else {
-                if (stack.empty()) {
-                    return false;
-                }
-                
-                char previousOpening = stack.pop();
-                if (matching.get(previousOpening) != c) {
-                    return false;
-                }
+        for(int i = 0 ; i < n ; i++){
+            char x = s.charAt(i);
+            if(map.containsKey(x)) stack.push(x);
+            else{
+                if(stack.isEmpty()) return false;
+                char y = stack.peek();
+                if(map.get(y) == x) stack.pop();
+                else return false;
             }
         }
-        
-        return stack.empty();
+        return stack.size() == 0;
     }
 }
