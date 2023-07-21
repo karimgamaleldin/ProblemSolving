@@ -1,26 +1,30 @@
 class Solution {
     public String simplifyPath(String path) {
-        Stack<String> s = new Stack<>();
+        int n = path.length();
         StringBuilder sb = new StringBuilder();
-        for(int i = 0 ; i < path.length() ; i++){
-            char x = path.charAt(i);
-            if(x == '/'){
-                dealWithSB(sb,s);
-                sb = new StringBuilder();
+        sb.append('/');
+        int i = 0;
+        while(i < n){
+            StringBuilder temp = new StringBuilder();
+            if(path.charAt(i) == '/'){
+                if(sb.charAt(sb.length() - 1) != '/') sb.append('/');
+                i++;
+                continue;
             }
-            else sb.append(x);
+            while(i < n && path.charAt(i) != '/'){
+                temp.append(path.charAt(i++));
+            }
+            String x = temp.toString();
+            if(x.equals(".")) continue;
+            else if(x.equals("..")){
+                int m = sb.length() - 1;
+                if(sb.length() != 1) sb.deleteCharAt(m--);
+                while(m >= 1 && sb.charAt(m) != '/') sb.deleteCharAt(m--);
+            }else{
+                sb.append(x);
+            }
         }
-        dealWithSB(sb,s);
-        sb = new StringBuilder();
-        while(!s.isEmpty()) sb.insert(0 , "/" + s.pop());
-        if(sb.length() == 0) sb.append('/');
+        if(sb.length() != 1 && sb.charAt(sb.length() - 1) == '/') sb.deleteCharAt(sb.length() - 1);
         return sb.toString();
-    }
-    public void dealWithSB(StringBuilder sb , Stack<String> s ){
-        if(sb.toString().equals("..")){
-        if(!s.isEmpty()) s.pop();
-        }else if(!sb.isEmpty() && !sb.toString().equals(".")){
-            s.push(sb.toString());
-        }
     }
 }
