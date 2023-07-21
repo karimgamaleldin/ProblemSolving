@@ -1,7 +1,7 @@
 class Solution {
-    Map<Character , Integer> map1 = new HashMap<>();
-    Map<Character , Integer> map2 = new HashMap<>();
     public String minWindow(String s, String t){
+        Map<Character , Integer> map1 = new HashMap<>();
+        Map<Character , Integer> map2 = new HashMap<>();
         int m = s.length();
         int n = t.length();
         if(n > m) return "";
