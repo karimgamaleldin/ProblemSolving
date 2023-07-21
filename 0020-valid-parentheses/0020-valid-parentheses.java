@@ -1,21 +1,17 @@
 class Solution {
     public boolean isValid(String s) {
+        int n = s.length();
         Stack<Character> stack = new Stack<>();
-        for(int i = 0 ; i < s.length() ; i++){
-            if(s.charAt(i) == '(' || s.charAt(i) == '[' || s.charAt(i) == '{' ){
-                stack.push(s.charAt(i));
-            }
-            else if(stack.empty()){
-                return false;
-            }
+        for(int i = 0 ; i < n ; i++){
+            char x = s.charAt(i);
+            if(x == '(' || x == '[' || x == '{') stack.push(x);
             else{
-                char c = stack.pop();
-                if(!closingTag(c,s.charAt(i))) return false;
+                if(stack.isEmpty()) return false;
+                char y = stack.peek();
+                if(y == '(' && x == ')' || y == '[' && x == ']' || y == '{' && x == '}') stack.pop();
+                else return false;
             }
         }
-        return stack.empty();
-    }
-    public boolean closingTag(char x , char y){
-        return (x == '(' && y == ')') || (x == '{' && y == '}') || (x == '[' && y == ']');
+        return stack.size() == 0;
     }
 }
