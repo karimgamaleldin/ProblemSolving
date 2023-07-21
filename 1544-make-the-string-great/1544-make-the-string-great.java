@@ -1,20 +1,17 @@
 class Solution {
     public String makeGood(String s) {
-        Stack<Character> stack = new Stack<>();
-        for(int i = 0 ; i < s.length() ; i++){
-            if(!stack.isEmpty() && (sameUpperLower(stack.peek() , s.charAt(i) ) || sameUpperLower(s.charAt(i) , stack.peek()))){
-                stack.pop();
-            }else stack.push(s.charAt(i));
-        }
         StringBuilder sb = new StringBuilder();
-        while(!stack.isEmpty()){
-            sb.append(stack.pop());
+        int n = s.length();
+        for(int i = 0 ; i < n ; i++){
+            char c = s.charAt(i);
+            int m = sb.length();
+            if(m == 0 || !compare(c , sb.charAt(m - 1))) sb.append(c);
+            else sb.deleteCharAt(m - 1);
         }
-        
-        return sb.reverse().toString();
+        return sb.toString();
     }
-    public boolean sameUpperLower(char lower , char upper){
-        int upperI = 32 + upper;
-        return (lower - upperI) == 0;
+    public boolean compare(char s , char l){
+        return Math.abs(s - l) == 32;
     }
+    
 }
