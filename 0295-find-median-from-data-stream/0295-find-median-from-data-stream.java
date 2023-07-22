@@ -1,23 +1,25 @@
 class MedianFinder {
-    PriorityQueue<Integer> dec; // smaller numbers
-    PriorityQueue<Integer> inc; // bigger numbers
-    int size;
+    PriorityQueue<Integer> minHeap; // smaller numbers
+    PriorityQueue<Integer> maxHeap; // bigger numbers
     public MedianFinder() {
-        this.dec = new PriorityQueue<>(Comparator.reverseOrder());
-        this.inc = new PriorityQueue<>();
-        this.size = 0;
+        this.minHeap = new PriorityQueue<>(Comparator.reverseOrder());
+        this.maxHeap = new PriorityQueue<>();
     }
     
-    public void addNum(int num) {
-        inc.add(num);
-        dec.add(inc.remove());
-        if(dec.size() > inc.size()) inc.add(dec.remove());
+public void addNum(int num) {
+        maxHeap.add(num);
+        minHeap.add(maxHeap.remove());
+        if (minHeap.size() > maxHeap.size()) {
+            maxHeap.add(minHeap.remove());
+        }
     }
     
     public double findMedian() {
-        if(inc.size() > dec.size()) return inc.peek();
-        return (inc.peek() + dec.peek()) / 2.0;
+        if (maxHeap.size() > minHeap.size()) {
+            return maxHeap.peek();
+        }
         
+        return (minHeap.peek() + maxHeap.peek()) / 2.0;
     }
 }
 
