@@ -16,10 +16,12 @@
 class Solution {
     public int minDepth(TreeNode root) {
         if(root == null) return 0;
-        int left = minDepth(root.left);
-        int right = minDepth(root.right);
-        if(root.left == null) return 1 + right;
-        else if(root.right == null) return 1 + left;
-        return 1 + Math.min(left , right); // either both 0 or min
+        if(root.left == null){
+            return 1 + minDepth(root.right);
+        }
+        if(root.right == null){
+            return 1 + minDepth(root.left);
+        }
+        return 1 + Math.min(minDepth(root.left) , minDepth(root.right));
     }
 }
