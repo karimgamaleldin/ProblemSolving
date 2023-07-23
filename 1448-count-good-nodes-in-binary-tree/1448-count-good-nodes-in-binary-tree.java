@@ -17,11 +17,11 @@ class Solution {
     public int goodNodes(TreeNode root) {
         return helper(root , Integer.MIN_VALUE);
     }
-    public int helper(TreeNode node , int max){
-        if(node == null) return 0;
-        else if(node.val >= max){
-            return 1 + helper(node.right , node.val) + helper(node.left , node.val);
+    public int helper(TreeNode root , int max){
+        if(root == null) return 0;
+        if(root.val >= max){
+            return helper(root.left , root.val) + helper(root.right , root.val) + 1;
         }
-        return helper(node.right , max) + helper(node.left , max);
+        return helper(root.left , max) + helper(root.right , max);
     }
 }
