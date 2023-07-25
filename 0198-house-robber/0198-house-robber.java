@@ -1,46 +1,26 @@
 class Solution {
-    
-    public int rob(int[] nums){
-        int n = nums.length;
-        if(n == 1) return nums[0];
-        int backT = nums[0];
-        int backO = Math.max(nums[0] , nums[1]);
-        for(int i = 2 ; i < n ; i++){
-            int temp = backO;
-            backO = Math.max(backO , backT + nums[i]);
-            backT = temp;
-        }
-        return backO;
+    HashMap<Integer , Integer> memo = new HashMap<>();
+    public int rob(int[] nums) {
+        if(nums.length == 1) return nums[0];
+        else if(nums.length == 2) return Math.max(nums[0] , nums[1]);
+        return Math.max(dp(nums , nums.length - 1) , dp(nums , nums.length - 2));
     }
-    
-    // HashMap<Integer , Integer> memo = new HashMap<Integer , Integer>();
-//     public int rob(int[] nums){
-//         int[] tab = new int[nums.length];
-//         if(nums.length == 1) return nums[0];
-//         else if(nums.length == 2) return Math.max(nums[0] , nums[1]);
-//         tab[0] = nums[0];
-//         tab[1] = nums[1];
-//         tab[2] = nums[2] + nums[0];
-//         for(int i = 3 ; i < nums.length ; i++){
-//             tab[i] = Math.max(tab[i-2] , tab[i-3]) + nums[i];
-//         }
-//         return Math.max(tab[nums.length - 1] , tab[nums.length - 2]);
-        
-//     }
-    // public int rob(int[] nums) {
-    //     if(nums.length == 1) return nums[0];
-    //     return Math.max(dp(nums.length - 1 , nums) , dp(nums.length - 2 , nums)) ;
-    // }
-    // public int dp(int i , int[] nums){
-    //     if(i == 0 || i == 1){
-    //         memo.put(i , nums[i]);
-    //         return nums[i];
-    //     }
-    //     else if(i == 2){
-    //         memo.put(2 , nums[0] + nums[2]);
-    //         return memo.get(2);
-    //     }
-    //     if(!memo.containsKey(i)) memo.put(i , nums[i] + Math.max(dp(i - 2 , nums) , dp(i - 3 , nums)));
-    //     return memo.get(i);
-    // }
+    public int dp(int[] nums , int x){
+        if(x ==0 || x == 1){
+            memo.put(x , nums[x]);
+            return nums[x];
+        }
+        if(x == 2){
+            memo.put(2 , nums[2] + nums[0]);
+            return memo.get(2);
+        }
+        if(memo.containsKey(x)){
+            return memo.get(x);
+        }
+        int a = dp(nums , x - 2);
+        int b = dp(nums , x - 3);
+        int y = Math.max(a,b) + nums[x];
+        memo.put(x , y);
+        return y;
+    }
 }
