@@ -1,18 +1,19 @@
 class Solution {
     public List<List<Integer>> generate(int numRows) {
-        List<List<Integer>> arr = new ArrayList<>();
-        for(int i = 0 ; i < numRows ; i++){
-            ArrayList x = new ArrayList<>();
-            for(int j = 0 ; j < i+1 ; j++){
-                if(i > 1 && j > 0 && j < i ){
-                    x.add(arr.get(i-1).get(j-1) + arr.get(i-1).get(j) );
-                }
-                else {
-                    x.add(1);
-                }
+        List<List<Integer>> r = new LinkedList<>();
+        List<Integer> t = new LinkedList<>();
+        t.add(1);
+        r.add(t);
+        for(int i = 1 ; i < numRows ; i++){
+            t = new LinkedList<>();
+            List<Integer> x = r.get(i - 1);
+            for(int j = 0 ; j <= i ; j++){
+                if(j > 0 && j < i){
+                    t.add(x.get(j - 1) + x.get(j));
+                }else t.add(1);
             }
-            arr.add(x);
+            r.add(t);
         }
-        return arr;
+        return r;
     }
 }
