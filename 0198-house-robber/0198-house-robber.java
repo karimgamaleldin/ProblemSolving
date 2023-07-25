@@ -3,14 +3,22 @@ class Solution {
     public int rob(int[] nums) {
         if(nums.length == 1) return nums[0];
         else if(nums.length == 2) return Math.max(nums[0] , nums[1]);
-        int[] tab = new int[nums.length];
-        tab[0] = nums[0];
-        tab[1] = nums[1];
-        tab[2] = nums[2] + nums[0];
-        for(int i = 3 ; i < nums.length ; i++){
-            tab[i] = Math.max(tab[i - 2] , tab[i - 3]) + nums[i];
-        } 
-        return Math.max(tab[nums.length - 2] , tab[nums.length - 1]);
+        int a = nums[0];
+        int b = Math.max(nums[0] , nums[1]);
+        for(int i = 2 ; i < nums.length ; i++){
+            int temp = b;
+            b = Math.max(b , nums[i] + a);
+            a = temp;
+        }
+        return Math.max(a , b);
+        // int[] tab = new int[nums.length];
+        // tab[0] = nums[0];
+        // tab[1] = nums[1];
+        // tab[2] = nums[2] + nums[0];
+        // for(int i = 3 ; i < nums.length ; i++){
+        //     tab[i] = Math.max(tab[i - 2] , tab[i - 3]) + nums[i];
+        // } 
+        // return Math.max(tab[nums.length - 2] , tab[nums.length - 1]);
         // if(nums.length == 1) return nums[0];
         // else if(nums.length == 2) return Math.max(nums[0] , nums[1]);
         // return Math.max(dp(nums , nums.length - 1) , dp(nums , nums.length - 2));
