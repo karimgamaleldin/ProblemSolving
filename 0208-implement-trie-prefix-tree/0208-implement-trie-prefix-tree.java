@@ -1,48 +1,56 @@
 class Trie {
-    Map<Character , Trie> children;
-    HashSet<String> possible;
+
+    Node root;
+
     public Trie() {
-        children = new HashMap<>();
-        possible = new HashSet<>();
+        root = new Node('\0'); //dummy node
     }
-    
+
     public void insert(String word) {
-        Trie x = this;
-        for(int i = 0 ; i < word.length() ; i++){
-            char c = word.charAt(i);
-            if(!x.children.containsKey(c)){
-                x.children.put(c , new Trie());
+        Node curr = root;
+        for (char x : word.toCharArray()) {
+            if (curr.children[x - 'a'] == null) {
+                curr.children[x - 'a'] = new Node(x);
             }
-            x = x.children.get(c);
-            x.possible.add(word);
+            curr = curr.children[x - 'a'];
         }
+        curr.isWord = true;
     }
-    
+
     public boolean search(String word) {
-        char c = word.charAt(0);
-        if(children.containsKey(c)){
-            return children.get(c).possible.contains(word);
-        }
-        return false;
+        Node res = getLast(word);
+        return (res != null && res.isWord);
     }
-    
-    public boolean startsWith(String prefix) {
-        Trie x = this;
-        for(char c: prefix.toCharArray()){
-            if(x.children.containsKey(c)){
-                x = x.children.get(c);
-            }else{
-                return false;
+
+    //helper method
+    public Node getLast(String word) {
+        Node curr = root;
+        for (char x : word.toCharArray()) {
+            if (curr.children[x - 'a'] == null) {
+                return null;
             }
+
+            curr = curr.children[x - 'a'];
         }
+        return curr;
+    }
+
+    public boolean startsWith(String prefix) {
+        Node res = getLast(prefix);
+        if (res == null) return false;
         return true;
     }
-}
 
-/**
- * Your Trie object will be instantiated and called as such:
- * Trie obj = new Trie();
- * obj.insert(word);
- * boolean param_2 = obj.search(word);
- * boolean param_3 = obj.startsWith(prefix);
- */
+    class Node {
+
+        private char value;
+        private boolean isWord;
+        private Node[] children;
+
+        public Node(char val) {
+            this.value = val;
+            this.isWord = false;
+            this.children = new Node[26];
+        }
+    }
+}
