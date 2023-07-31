@@ -1,24 +1,15 @@
 class Solution {
-    HashMap<Integer , List<Integer>> map = new HashMap<>();
-    boolean[] seen;
-    int unlocked = 1;
     public boolean canVisitAllRooms(List<List<Integer>> rooms) {
-        seen = new boolean[rooms.size()];
-        for(int i = 0 ; i < rooms.size() ; i++){
-            map.put(i,rooms.get(i));
-        }
-        seen[0] = true;
-        dfs(0);
-        return unlocked == rooms.size();
+        HashSet<Integer> seen = new HashSet<>();
+        dfs(0,rooms,seen);
+        return seen.size() == rooms.size();
     }
-    public void dfs(int n){
-        List<Integer> x = map.get(n);
-        for(int i = 0 ; i < x.size() ; i++){
-            int a = x.get(i);
-            if(!seen[a]){
-                unlocked++;
-                seen[a] = true;
-                dfs(a);
+    public void dfs(int x , List<List<Integer>> rooms , HashSet<Integer> seen){
+        seen.add(x);
+        List<Integer> l = rooms.get(x);
+        for(int i = 0 ; i < l.size() ; i++){
+            if(!seen.contains(l.get(i))){
+                dfs(l.get(i) , rooms , seen);
             }
         }
     }
