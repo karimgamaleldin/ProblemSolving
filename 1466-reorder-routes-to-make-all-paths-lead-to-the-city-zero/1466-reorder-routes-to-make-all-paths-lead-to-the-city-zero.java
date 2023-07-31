@@ -1,34 +1,29 @@
 class Solution {
-    HashMap<Integer , ArrayList<Integer>> map = new HashMap<>();
-    HashSet<String> roads = new HashSet<>();
-    boolean [] seen;
-    public int minReorder(int n, int[][] connections) {
-        seen = new boolean[n];
-        for(int i = 0 ; i <  n ; i++){
-            map.put(i , new ArrayList<>());
+    int count = 0;
+
+    public void dfs(int node, int parent, Map<Integer, List<List<Integer>>> adj) {
+        if (!adj.containsKey(node)) {
+            return;
         }
-        for(int i = 0 ; i < connections.length ; i++){
-            int a = connections[i][0];
-            int b = connections[i][1];
-            map.get(a).add(b);
-            map.get(b).add(a);
-            roads.add(a + "," + b);
-        }
-        seen[0] = true;
-        int ans = dfs(0);
-        return ans;
-    }
-    public int dfs(int n){
-        int ans = 0;
-        ArrayList<Integer> arr = map.get(n);
-        for(int i = 0 ; i < arr.size() ; i++){
-            int x = arr.get(i);
-            if(!seen[x]){
-                if(roads.contains(n + "," + x)) ans++;
-                seen[x] = true;
-                ans += dfs(x);
+        for (List<Integer> nei : adj.get(node)) {
+            int child = nei.get(0);
+            int sign = nei.get(1);
+            if (child != parent) {
+                count += sign;
+                dfs(child, node, adj);
             }
         }
-        return ans;
+    }
+
+    public int minReorder(int n, int[][] connections) {
+        Map<Integer, List<List<Integer>>> adj = new HashMap<>();
+        for (int[] connection : connections) {
+            adj.computeIfAbsent(connection[0], k -> new ArrayList<List<Integer>>()).add(
+                    Arrays.asList(connection[1], 1));
+            adj.computeIfAbsent(connection[1], k -> new ArrayList<List<Integer>>()).add(
+                    Arrays.asList(connection[0], 0));
+        }
+        dfs(0, -1, adj);
+        return count;
     }
 }
