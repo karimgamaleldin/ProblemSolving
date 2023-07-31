@@ -1,44 +1,24 @@
 class Solution {
-    HashMap<Pair<Integer, Integer>, Boolean> memo;
-    int n;
-    int m;
-    String s;
-    String p;
-
     public boolean isMatch(String s, String p) {
-        this.n = s.length();
-        this.m = p.length();
-        this.s = s;
-        this.p = p;
-        this.memo = new HashMap<>();
-        return dp(0, 0);
+        HashMap<Pair<Integer,Integer> , Boolean> memo = new HashMap<>();
+        return dp(0, 0  , s , p , memo);
     }
-
-    public boolean dp(int i, int j) {
-        Pair<Integer, Integer> key = new Pair<>(i, j);
-        if (memo.containsKey(key)) {
-            return memo.get(key);
+    public boolean dp(int i, int j , String s , String p , HashMap<Pair<Integer,Integer> , Boolean> memo) {
+        if(i >= s.length() && j >= p.length()) return true; // both string and expression finished
+        if(j >= p.length()) return false; // expression finished while string didnot finish
+        Pair<Integer , Integer> key = new Pair(i,j);
+        if(memo.containsKey(key)) return memo.get(key);
+        boolean match = i < s.length() && (s.charAt(i) == p.charAt(j) || p.charAt(j) == '.');
+        if(j + 1 < p.length() && p.charAt(j + 1) == '*'){
+            boolean temp = match && dp(i+1,j,s,p,memo) || dp(i,j+2,s,p,memo);
+            memo.put(key , temp);
+            return temp;
+        }else if(match){
+            boolean temp = dp(i+1,j+1,s,p,memo);
+            memo.put(key,temp);
+            return temp;
         }
-        if (i >= n) {
-            // Check if there are remaining characters in the regular expression
-            while (j + 1 < m && p.charAt(j + 1) == '*') {
-                j += 2;
-            }
-            // If there are no remaining characters, it's a match; otherwise, return false
-            return j == m;
-        }
-        if (j >= m) return false; // we finished the regular expression and there is no match
-        boolean f = i < n && (s.charAt(i) == p.charAt(j) || p.charAt(j) == '.');
-        if (j + 1 < m && p.charAt(j + 1) == '*') {
-            boolean t = dp(i, j + 2) || (f && dp(i + 1, j));
-            memo.put(key, t);
-            return t;
-        } else if (f) {
-            boolean t = dp(i + 1, j + 1);
-            memo.put(key, t);
-            return t;
-        }
-        memo.put(key, false);
+        memo.put(key , false);
         return false;
     }
 }
