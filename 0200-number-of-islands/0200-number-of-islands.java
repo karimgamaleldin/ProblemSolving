@@ -1,31 +1,28 @@
 class Solution {
-    boolean[][] seen;
-    char[][] g;
     public int numIslands(char[][] grid) {
-        g = grid;
-        int n = grid.length;
-        int m = grid[0].length;
-        seen = new boolean[n][m];
-        int islands = 0;
-        for(int i = 0 ; i < n ; i++){
-            for(int j = 0 ; j < m ; j++){
+        int m = grid.length;
+        int n = grid[0].length;
+        boolean[][] seen = new boolean[m][n];
+        int count = 0;
+        for(int i = 0 ; i < m ; i++){
+            for(int j = 0 ; j < n ; j++){
                 if(!seen[i][j] && grid[i][j] == '1'){
-                    islands++;
+                    count++;
                     seen[i][j] = true;
-                    dfs(i , j);
+                    dfs(i , j , seen , grid);
                 }
             }
         }
-        return islands;
+        return count;
     }
-    public void dfs(int i , int j){
-        int[][] directions = new int[][]{{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
-        for(int[] d : directions){
-            int nextRow = i + d[0]; 
-            int nextCol = j + d[1];
-            if (0 <= nextRow && nextRow < g.length && 0 <= nextCol && nextCol < g[0].length && g[nextRow][nextCol] == '1' && !seen[nextRow][nextCol]) {
-                seen[nextRow][nextCol] = true;
-                dfs(nextRow, nextCol);
+    public void dfs(int i , int j , boolean[][] seen , char[][] g){
+        int[][] directions = new int[][]{{0,1},{1,0},{0,-1},{-1,0}};
+        for(int[] dir : directions){
+            int newI = i + dir[0];
+            int newJ = j + dir[1];
+            if(0 <= newI && newI < g.length && 0 <= newJ && newJ < g[0].length && g[newI][newJ] == '1' && !seen[newI][newJ]){
+                seen[newI][newJ] = true;
+                dfs(newI , newJ , seen , g);
             }
         }
     }
