@@ -7,10 +7,11 @@ public class Solution extends VersionControl {
         int right = n;
         while(left < right){
             int mid = left + (right - left) / 2;
-            if(!isBadVersion(mid) && isBadVersion(mid + 1)){
+            boolean f = isBadVersion(mid);
+            if(!f && isBadVersion(mid + 1)){
                 return mid + 1;
             }
-            if(!isBadVersion(mid)){
+            if(!f){
                 left = mid + 1;
             }
             else{
