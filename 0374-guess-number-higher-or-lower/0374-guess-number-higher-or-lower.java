@@ -9,15 +9,15 @@
 
 public class Solution extends GuessGame {
     public int guessNumber(int n) {
-        int start = 0 ;
-        int end = n;
-        while (start <= end) {
-            int mid = start + (end - start)/2  ;
-            if(0 == guess(mid)) return mid;
-            else if(1 == guess(mid)) start = mid + 1;
-            else end = mid - 1;
+        int left = 1;
+        int right = n;
+        while(left <= right){
+            int mid = left + ( - left + right) / 2;
+            int g = guess(mid);
+            if(g == 0) return mid;
+            else if(g == 1) left = mid + 1;
+            else right = mid - 1;
         }
         return -1;
-        
     }
 }
