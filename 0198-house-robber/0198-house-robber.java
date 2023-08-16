@@ -1,44 +1,19 @@
 class Solution {
-    HashMap<Integer , Integer> memo = new HashMap<>();
+    // Top down implementation
+    private HashMap<Integer, Integer> memo = new HashMap<Integer, Integer>();
+    private int[] nums;
     public int rob(int[] nums) {
-        if(nums.length == 1) return nums[0];
-        else if(nums.length == 2) return Math.max(nums[0] , nums[1]);
-        int a = nums[0];
-        int b = Math.max(nums[0] , nums[1]);
-        for(int i = 2 ; i < nums.length ; i++){
-            int temp = b;
-            b = Math.max(b , nums[i] + a);
-            a = temp;
-        }
-        return Math.max(a , b);
-        // int[] tab = new int[nums.length];
-        // tab[0] = nums[0];
-        // tab[1] = nums[1];
-        // tab[2] = nums[2] + nums[0];
-        // for(int i = 3 ; i < nums.length ; i++){
-        //     tab[i] = Math.max(tab[i - 2] , tab[i - 3]) + nums[i];
-        // } 
-        // return Math.max(tab[nums.length - 2] , tab[nums.length - 1]);
-        // if(nums.length == 1) return nums[0];
-        // else if(nums.length == 2) return Math.max(nums[0] , nums[1]);
-        // return Math.max(dp(nums , nums.length - 1) , dp(nums , nums.length - 2));
+        int n = nums.length;
+        this.nums = nums;
+        if(n == 1) return dp(n-1);
+        return dp(n - 1); // As we can stop in the before last house
     }
-    public int dp(int[] nums , int x){
-        if(x ==0 || x == 1){
-            memo.put(x , nums[x]);
-            return nums[x];
-        }
-        if(x == 2){
-            memo.put(2 , nums[2] + nums[0]);
-            return memo.get(2);
-        }
-        if(memo.containsKey(x)){
-            return memo.get(x);
-        }
-        int a = dp(nums , x - 2);
-        int b = dp(nums , x - 3);
-        int y = Math.max(a,b) + nums[x];
-        memo.put(x , y);
-        return y;
+    public int dp(int n){
+        if(n == 0) return nums[0];
+        if(n == 1) return Math.max(nums[1] , nums[0]);
+        if(memo.containsKey(n)) return memo.get(n);
+        int x = Math.max(dp(n-2) +  nums[n] , dp(n-1));
+        memo.put(n , x);
+        return x;
     }
 }
