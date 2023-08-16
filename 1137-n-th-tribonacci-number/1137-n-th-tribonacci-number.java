@@ -2,9 +2,15 @@ class Solution {
     public int tribonacci(int n) {
         if(n == 0) return 0;
         if(n == 1 || n == 2) return 1;
-        int[] memo = new int[n + 1];
-        memo[0] = 0; memo[1] = 1; memo[2] = 1;
-        for(int i = 3 ; i < n + 1 ; i++) memo[i] = memo[i-1] + memo[i-2] + memo[i-3];
-        return memo[n];
+        int one = 0;
+        int two = 1;
+        int three = 1;
+        for(int i = 3 ; i <= n ; i++){
+            int temp = three;
+            three = one + two + three;
+            one = two;
+            two = temp;
+        }
+        return three;
     }
 }
