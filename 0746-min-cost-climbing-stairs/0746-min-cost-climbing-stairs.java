@@ -2,13 +2,14 @@ class Solution {
     // Tabulation
     public int minCostClimbingStairs(int[] cost){
         int n = cost.length;
-        int[] tab = new int[n];
-        tab[n - 1] = cost[n - 1];
-        tab[n - 2] = cost[n - 2];
+        int two = cost[n - 1];
+        int one = cost[n - 2];
         for(int i = n - 3 ; i >= 0 ; i--){
-            tab[i] = cost[i] + Math.min(tab[i + 1] , tab[i + 2]);
+            int temp = one;
+            one = Math.min(cost[i] + one , cost[i] + two);
+            two = temp;
         }
-        return Math.min(tab[0] , tab[1]);
+        return Math.min(one , two);
     }
 //     Top down
     // public int minCostClimbingStairs(int[] cost) {
