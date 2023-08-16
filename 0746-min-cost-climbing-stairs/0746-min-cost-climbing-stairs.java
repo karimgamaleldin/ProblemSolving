@@ -1,4 +1,5 @@
 class Solution {
+    // Tabulation
     public int minCostClimbingStairs(int[] cost){
         int n = cost.length;
         int[] tab = new int[n];
