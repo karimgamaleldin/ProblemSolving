@@ -1,29 +1,15 @@
 class Solution {
-    int[][] grid;
-    int m;
-    int n;
     public int uniquePaths(int m, int n) {
-        this.m = m;
-        this.n = n;
-        grid = new int[m][n];
-        for(int i = 0 ; i < m ; i++){
-            Arrays.fill(grid[i] , -1);
+        int[][] tab = new int[m][n];
+        tab[m - 1][n - 1] = 1;
+        for(int i = m - 1 ; i >= 0 ; i--){
+            for(int j = n - 1 ; j >= 0 ; j--){
+                int x = 0;
+                if(i + 1 != m) x += tab[i + 1][j];
+                if(j + 1 != n) x += tab[i][j + 1];
+                tab[i][j] += x;
+            }
         }
-        return dp(0,0);
-    }
-    public int dp(int i , int j){
-        if(i == m || j == n) return 0;
-        if(i == m - 1 && j == n - 1){
-            grid[i][j] = 1;
-            return 1;
-        }
-        if(grid[i][j] != -1){
-            return grid[i][j];
-        }
-        int a = dp(i+1 , j);
-        int b = dp(i , j+1);
-        int x = a + b;
-        grid[i][j] = x;
-        return x;
+        return tab[0][0];
     }
 }
