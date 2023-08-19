@@ -1,33 +1,26 @@
 class Solution {
     int[][][] memo;
-    int n;
-    int m;
-    int[] arr;
+    int[] prices;
     public int maxProfit(int k, int[] prices) {
-        arr = prices;
-        n = prices.length;
-        m = k;
-        memo = new int[n][m][2];
-        for(int[][] a : memo)
-            for(int[] b : a)
-                Arrays.fill(b , Integer.MIN_VALUE);
-        return dp(0 , k - 1 , 0);
+        this.prices = prices;
+        this.memo = new int[prices.length + 1][k + 1][2];
+        for(int[][] me: memo) for(int[] m : me) Arrays.fill(m , -1);
+        return dp(0 , 0 , k);
     }
-    public int dp(int i , int j , int hold){
-        if(i == n || j == -1){
-            return 0;
-        }else if(memo[i][j][hold] != Integer.MIN_VALUE){
-            return memo[i][j][hold];
-        }
-        int x = dp(i+1 , j , hold);
-        if(hold == 0){
-            int a = dp(i+1 , j ,1) - arr[i];
-            x = Math.max(a , x);
+    public int dp(int i , int hold , int k){
+        if(k == 0 || i == prices.length) return 0;
+        if(memo[i][k][hold] != -1) return memo[i][k][hold];
+        int r = 0;
+        if(hold == 1){
+            int sell = dp(i + 1 , 0 , k - 1) + prices[i];
+            int keep = dp(i + 1 , 1 , k);
+            r = Math.max(sell , keep);
         }else{
-            int a = dp(i+1 , j-1 ,0) + arr[i];
-            x = Math.max(a,x);
+            int buy = dp(i + 1 , 1 , k) - prices[i];
+            int keep = dp(i + 1 , 0 , k);
+            r = Math.max(buy , keep);
         }
-        memo[i][j][hold] = x;
-        return x;
+        memo[i][k][hold] = r;
+        return r;
     }
 }
