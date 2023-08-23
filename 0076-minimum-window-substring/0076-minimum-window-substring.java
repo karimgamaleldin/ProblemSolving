@@ -1,40 +1,36 @@
 class Solution {
-    public String minWindow(String s, String t){
+    public String minWindow(String s, String t) {
+        int m = s.length() , n = t.length();
         Map<Character , Integer> map1 = new HashMap<>();
         Map<Character , Integer> map2 = new HashMap<>();
-        int m = s.length();
-        int n = t.length();
-        if(n > m) return "";
         for(int i = 0 ; i < n ; i++) map2.put(t.charAt(i) , map2.getOrDefault(t.charAt(i) , 0) + 1);
-        int left = 0;
-        int right = 0;
-        int num = 0;
-        int min = m;
+        int counts = 0;
+        int j = 0;
+        int distinct = map2.size();
+        int ans = Integer.MAX_VALUE;
         String r = "";
-        while(left < m){
-            if(num == n){
-                if(right - left <= min){
-                    r = s.substring(left , right);
-                    min = right - left;
+        for(int i = 0 ; i < m ; i++){
+            char x = s.charAt(i);
+            map1.put(x , map1.getOrDefault(x , 0) + 1);
+            if(map1.get(x).equals(map2.getOrDefault(x , -1))) counts++;
+            while(counts == distinct){
+                if(i - j + 1 < ans){
+                    ans = i - j + 1;
+                    r = s.substring(j , i + 1);
                 }
-                char c = s.charAt(left);
-                if(map2.containsKey(c)){
-                    if(map1.get(c) <= map2.get(c)){
-                        num--;
-                    }
-                    map1.put(c , map1.get(c) - 1);
+                char c = s.charAt(j);
+                map1.put(c , map1.get(c) - 1);
+                if(map2.containsKey(c) && map1.get(c) < map2.get(c)){
+                    counts--;
                 }
-                left++;
-            }else{
-                if(right >= m) break;
-                char c = s.charAt(right);
-                if(map2.containsKey(c)){
-                    if(map1.getOrDefault(c , 0) < map2.get(c)) num++;
-                    map1.put(c , map1.getOrDefault(c , 0) + 1);
-                }
-                right++;
+                j++;
             }
         }
+        // System.out.println(map1);
+        // System.out.println(map1.get('a'));
+        // System.out.println(map2.get('a'));
+        // System.out.println(map2);
+        // System.out.println(counts +" "+ distinct);
         return r;
     }
 }
