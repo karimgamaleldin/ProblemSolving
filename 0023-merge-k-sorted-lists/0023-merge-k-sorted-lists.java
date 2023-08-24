@@ -10,46 +10,19 @@
  */
 class Solution {
     public ListNode mergeKLists(ListNode[] lists) {
-        if(lists.length == 0) return null;
-        ListNode r = lists[0];
-        for(int i = 1 ; i < lists.length ; i++){
-            r = mergeTwoLists(r , lists[i]);
+        PriorityQueue<ListNode> pq = new PriorityQueue<>((a, b) -> a.val - b.val);
+        for (ListNode l : lists) {
+            if(l != null) pq.offer(l);
         }
-        return r;
-        
-    }
-    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
-        if(list1 == null && list2 == null) return null;
-        else if(list1 == null) return list2;
-        else if(list2 == null) return list1;
-        ListNode a = list1;
-        ListNode b = list2;
-        boolean f; 
-        ListNode head = null;
-        if(a.val <= b.val){
-            head = a;
-            a = a.next;
-            f = true;
+        ListNode dummy = new ListNode();
+        ListNode curr = dummy;
+        while(!pq.isEmpty()){
+            ListNode temp = pq.poll();
+            curr.next = temp;
+            temp = temp.next;
+            if(temp != null) pq.offer(temp);
+            curr = curr.next;
         }
-        else{
-            head = b;
-            b = b.next;
-            f = false;
-        }
-        while(a != null || b != null){
-            int x = a != null ? a.val : Integer.MAX_VALUE;
-            int y = b != null ? b.val : Integer.MAX_VALUE;
-            if(x <= y){
-                head.next = a;
-                head = a;
-                a = a.next;
-            }
-            else{
-                head.next = b;
-                head = b;
-                b = b.next;
-            }
-        }
-        return f ? list1 : list2;
+        return dummy.next;
     }
 }
