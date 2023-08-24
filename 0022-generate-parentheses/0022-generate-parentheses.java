@@ -1,38 +1,25 @@
 class Solution {
-    char[] par = new char[] {'(' , ')'};
     public List<String> generateParenthesis(int n) {
-        List<String> r = new ArrayList<>();
-        backtrack(n , r , new StringBuilder() , 0 , 0);
-        return r;
+        List<String> ans = new ArrayList<>();
+        StringBuilder sb = new StringBuilder();
+        backtrack(n , sb , ans , 0 , 0);
+        return ans;
     }
-    public void backtrack(int n , List<String> r , StringBuilder sb , int left , int right){
-        String s = sb.toString();
-        if(sb.length() == n * 2){
-            r.add(s);
+    public static void backtrack(int n , StringBuilder sb , List<String> ans , int left , int right){
+        if(left == n && right == n){
+            ans.add(sb.toString());
             return;
         }
         if(left < n){
             sb.append('(');
-            backtrack(n , r , sb , left + 1, right);
-            sb.deleteCharAt(sb.length() - 1);
+            backtrack(n , sb , ans , left + 1 , right);
+            sb.deleteCharAt(-1 + sb.length());
         }
+        
         if(right < left){
             sb.append(')');
-            backtrack(n , r , sb , left , right + 1);
-            sb.deleteCharAt(sb.length() - 1);
+            backtrack(n , sb , ans , left , right + 1);
+            sb.deleteCharAt(-1 + sb.length());
         }
-    }
-    public boolean check(String s){
-        int n = s.length();
-        Stack<Character> stack = new Stack<>();
-        for(int i = 0 ; i < n ; i++){
-            char c = s.charAt(i);
-            if(c == '(') stack.push('(');
-            else{
-                if(stack.isEmpty()) return false;
-                stack.pop();
-            }
-        }
-        return true;
     }
 }
