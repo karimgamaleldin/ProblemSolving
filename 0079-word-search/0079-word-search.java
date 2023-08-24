@@ -1,43 +1,36 @@
 class Solution {
-    int[][] directions = new int[][]{{0 , 1} , {1 , 0} , {0 , -1} , {-1 , 0}};
-    int m = 0;
-    int n = 0;
+    boolean f = false;
+    int[][] directions = new int[][]{{0,1} , {1,0} , {-1,0} , {0,-1}};
     public boolean exist(char[][] board, String word) {
-        m = board.length;
-        n = board[0].length;
-        StringBuilder sb = new StringBuilder();
-        HashSet<Pair<Integer , Integer>> s = new HashSet<Pair<Integer , Integer>>();
-        boolean solution = false;
-        for(int i = 0 ; i < m ; i++){
-            for(int j = 0 ; j < n ; j++){
-                sb.append(board[i][j]);
-                Pair p = new Pair(i , j);
-                s.add(p);
-                solution = solution || backtrack(board , word , sb , 0 , i , j , s);
-                sb.delete(sb.length() - 1 , sb.length());
-                s.remove(p);
+        int m = board.length;
+        int n = board[0].length;
+        for(int i = 0 ; i < m && !f ; i++){
+            for(int j = 0 ; j < n && !f ; j++){
+                if(board[i][j] == word.charAt(0)){
+                    HashSet<String> seen = new HashSet<>();
+                    seen.add(i + " " + j);
+                    backtrack(board , word , 1 , i , j , seen);
+                }
             }
         }
-        return solution;
+        return f;
     }
-    public boolean backtrack(char[][] board , String word , StringBuilder sb , int letter , int i , int j , HashSet<Pair<Integer , Integer>> set){
-        if(sb.charAt(letter) != word.charAt(letter)){
-            return false;
+    public void backtrack(char[][] b , String w , int k , int i , int j , HashSet<String> seen){
+        if(k == w.length()){
+            f = true;
+            return;
         }
-        if(sb.length() == word.length()) return true;
-        boolean solution = false;
-        for(int[] dir : directions){
-            int newI = i + dir[0];
-            int newJ = j + dir[1];
-            Pair<Integer , Integer> p = new Pair<Integer , Integer>(newI , newJ);
-            if(newI >= 0 && newJ >= 0 && newI < m && newJ < n && !set.contains(p)){
-                set.add(p);
-                sb.append(board[newI][newJ]);
-                solution = solution || backtrack(board , word , sb , letter + 1 , newI , newJ , set);
-                sb.delete(sb.length() - 1 , sb.length());
-                set.remove(p);
+        
+        for(int[] dir: directions){
+            int ni = i + dir[0];
+            int nj = j + dir[1];
+            if(ni >= 0 && nj >= 0 && ni < b.length && nj < b[0].length && !seen.contains(ni + " " + nj) && b[ni][nj] == w.charAt(k)){
+                seen.add(ni + " " + nj);
+                backtrack(b , w , k + 1 , ni , nj , seen);
+                seen.remove(ni + " " + nj);
             }
+            if(f) break;
         }
-        return solution;
+        
     }
 }
