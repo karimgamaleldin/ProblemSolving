@@ -1,7 +1,7 @@
 class Solution {
     public int findCircleNum(int[][] isConnected) {
         int n = isConnected.length;
-        UnionFind uf = new UnionFind(n);
+        UnionFindOptimized uf = new UnionFindOptimized(n);
         for(int i = 0 ; i < n ; i++){
             int[] arr = isConnected[i];
             for(int j = 0 ; j < n ; j++){
@@ -10,32 +10,31 @@ class Solution {
         }
         return uf.numberOfComponents();
     }
-    static class UnionFind{
+    static class UnionFindOptimized{
         private int[] root;
         private int[] rank;
-        
-        public UnionFind(int size){
-            root = new int[size];
-            rank = new int[size];
-            for(int i = 0 ; i < size ; i++) {
-                root[i] = i;
-                rank[i] = 1;
+        public UnionFindOptimized(int size){ // Initialize the root and rank array
+            this.root = new int[size];
+            this.rank = new int[size];
+            for(int i = 0 ; i < size ; i++){
+                this.root[i] = i;
+                this.rank[i] = 1;
             }
         }
-        
-        public int find(int x){ 
-            if(x == root[x]) return x;
+
+        public int find(int x){
+            if(root[x] == x) return x;
             return root[x] = find(root[x]);
         }
-        
+
         public void union(int x , int y){
             int rootX = find(x);
             int rootY = find(y);
-            if(rank[rootX] > rank[rootY]) root[rootY] = rootX;
-            else if(rank[rootX] < rank[rootY]) root[rootX] = rootY;
+            if(rank[rootX] < rank[rootY]) root[rootX] = rootY;
+            else if(rank[rootX] > rank[rootY]) root[rootY] = rootX;
             else{
                 root[rootY] = rootX;
-                rank[rootX] += 1;
+                rank[rootX]++;
             }
         }
         
