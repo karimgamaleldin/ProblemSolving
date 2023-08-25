@@ -1,24 +1,39 @@
 class Solution {
     public int findCircleNum(int[][] isConnected) {
         int n = isConnected.length;
-        HashSet<Integer> seen = new HashSet<>();
-        int count = 0;
+        UnionFind uf = new UnionFind(n);
         for(int i = 0 ; i < n ; i++){
-            if(!seen.contains(i)){
-                seen.add(n);
-                count++;
-                dfs(seen , i , isConnected);
+            int[] arr = isConnected[i];
+            for(int j = 0 ; j < n ; j++){
+                if(i != j && arr[j] == 1)uf.union(i , j);
             }
         }
-        return count;
+        return uf.numberOfComponents();
     }
-    public void dfs(HashSet<Integer> seen , int v , int[][] isConnected){
-        int[] arr = isConnected[v];
-        for(int i = 0 ; i < arr.length ; i++){
-            if(!seen.contains(i) && arr[i] == 1){
-                seen.add(i);
-                dfs(seen , i , isConnected);
+    static class UnionFind{
+        private int[] root;
+        
+        public UnionFind(int size){
+            root = new int[size];
+            for(int i = 0 ; i < size ; i++) root[i] = i;
+        }
+        
+        public int find(int x){ return root[x]; }
+        
+        public void union(int x , int y){
+            int rootX = find(x);
+            int rootY = find(y);
+            for(int i = 0 ; rootX != rootY && i < root.length ; i++){
+                if(rootY == root[i]) root[i] = root[x];
             }
+        }
+        
+        public boolean connected(int x , int y){return find(x) == find(y);}
+        
+        public int numberOfComponents(){
+            HashSet<Integer> s = new HashSet<>();
+            for(int i = 0 ; i < root.length ; i++) s.add(root[i]);
+            return s.size();
         }
     }
 }
