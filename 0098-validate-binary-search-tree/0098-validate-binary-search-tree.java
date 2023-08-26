@@ -15,26 +15,13 @@
  */
 class Solution {
     public boolean isValidBST(TreeNode root) {
-        return helper(root.left , Long.MIN_VALUE , root.val) && helper(root.right , root.val , Long.MAX_VALUE);
-    }
-    public boolean helper(TreeNode root , long min , long max){
         if(root == null) return true;
-        if(root.val >= max || root.val <= min) return false;
-        return helper(root.left , min , root.val) && helper(root.right , root.val , max);
+        if(root.left == null && root.right == null) return true;
+        return helper(root , Long.MAX_VALUE , Long.MIN_VALUE);
     }
-//     public boolean isValidBST(TreeNode root) {
-//         List<Integer> l = new ArrayList<>();
-//         helper(root , l);
-//         for(int i = 0 ; i < l.size() - 1 ; i++){
-//             if(l.get(i) >= l.get(i+1)) return false;
-//         }
-//         return true;
-        
-//     }
-//     public void helper(TreeNode root , List<Integer> l){
-//         if(root == null) return;
-//         helper(root.left , l);
-//         l.add(root.val);
-//         helper(root.right , l);
-//     }
+    public boolean helper(TreeNode root , long max , long min){
+        if(root == null) return true;
+        if(root.val < max && root.val > min) return helper(root.right , max , root.val) && helper(root.left , root.val , min);
+        return false;
+    }
 }
