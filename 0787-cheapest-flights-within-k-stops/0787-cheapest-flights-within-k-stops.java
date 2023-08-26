@@ -1,25 +1,22 @@
 class Solution {
     public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
-        HashMap<Integer , List<int[]>> graph = new HashMap<>();
-        int[] dp = new int[n];
-        Arrays.fill(dp , Integer.MAX_VALUE);
-        for(int i = 0 ; i < n ; i++) graph.put(i , new ArrayList<>());
-        for(int[] f : flights) graph.get(f[0]).add(new int[]{f[1] , f[2]});
-        // System.out.println(graph);
-        dp[src] = 0;
-        for(int i = 0 ; i <= k ; i++){
-            int dpt[] = dp.clone();
-            for(int j = 0 ; j < n ; j++){
-                if(dp[j] != Integer.MAX_VALUE){
-                    List<int[]> arr = graph.get(j);
-                    for(int[] a : arr){
-                        dpt[a[0]] = Math.min(dpt[a[0]] , dp[j] + a[1]);
-                         // System.out.println(a[0] + "=" + dpt[a[0]]);
-                    }
+        // Distance from source to all other nodes.
+        int[] dist = new int[n];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        dist[src] = 0;
+
+        // Run only K+1 times since we want shortest distance in K hops
+        for (int i = 0; i <= k; i++) {
+            // Create a copy of dist vector.
+            int[] temp = Arrays.copyOf(dist, n);
+            for (int[] flight : flights) {
+                if (dist[flight[0]] != Integer.MAX_VALUE) {
+                    temp[flight[1]] = Math.min(temp[flight[1]], dist[flight[0]] + flight[2]);
                 }
             }
-            dp = dpt;
+            // Copy the temp vector into dist.
+            dist = temp;
         }
-        return dp[dst] == Integer.MAX_VALUE ? -1 : dp[dst];
+        return dist[dst] == Integer.MAX_VALUE ? -1 : dist[dst];
     }
 }
