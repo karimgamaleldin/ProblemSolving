@@ -28,17 +28,13 @@ class Solution {
         q.add(root);
         q.add(null);
         while(!q.isEmpty()){
-            int size = q.size();
-            for(int i = 0 ; i < size ; i++){
-                Node a = q.remove();
-                if(a == null) break;
-                a.next = q.peek();
-                if(a.left != null){
-                    q.add(a.left);
-                    q.add(a.right);
-                }
+            Node x = q.remove();
+            if(x != null){
+                x.next = q.peek();
+                if(x.left != null) q.add(x.left);
+                if(x.right!= null) q.add(x.right);
+                if(q.peek() == null) q.add(null);
             }
-            if(!q.isEmpty()) q.add(null);
         }
         return root;
     }
