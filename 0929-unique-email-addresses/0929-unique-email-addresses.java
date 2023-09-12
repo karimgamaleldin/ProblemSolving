@@ -1,30 +1,29 @@
 class Solution {
     public int numUniqueEmails(String[] emails) {
-        HashSet<String> set = new HashSet<String>();
-        int count = 0;
-        for(int i = 0 ; i < emails.length;i++){
-            StringBuilder sb = new StringBuilder();
-            boolean atFound = false;
-            boolean plusFound = false;
-            for(int j = 0 ; j < emails[i].length() ; j++){
-                char currChar = emails[i].charAt(j);
-                if(atFound) sb.append(currChar);
-                else{
-                    if(currChar == '@') {
-                        sb.append('@');
-                        atFound = true;
-                    }
-                    if(currChar== '+') plusFound = true;
-                    if(currChar == '.') continue;
-                    if(!plusFound && !atFound)sb.append(currChar);
-
+        HashSet<String> em = new HashSet<>();
+        for(String e : emails){
+            String st = processEmail(e);
+            em.add(st);
+        }
+        return em.size();
+    }
+    public String processEmail(String email){
+        StringBuilder sb = new StringBuilder();
+        boolean ignore = false;
+        for(int i = 0 ; i < email.length() ; i++){
+            char c = email.charAt(i);
+            if(c == '@'){
+                sb.append(email.substring(i, email.length()));
+                break;
+            }else{
+                if(c == '+'){
+                    ignore = true;
+                }
+                else if(!ignore){
+                    if(c != '.') sb.append(c);
                 }
             }
-            if(set.contains(sb.toString())) continue;
-            System.out.println(sb.toString());
-            set.add(sb.toString());
-            count++;
         }
-        return count;
+        return sb.toString();
     }
 }
