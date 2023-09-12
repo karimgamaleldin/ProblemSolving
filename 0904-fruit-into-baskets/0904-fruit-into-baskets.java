@@ -1,21 +1,18 @@
 class Solution {
     public int totalFruit(int[] fruits) {
-        HashMap<Integer , Integer> map = new HashMap<>();
-        int left = 0;
-        int sol = 0;
-        int val = 0;
-        for(int right = 0 ; right < fruits.length ; right++){
-            int temp = map.containsKey(fruits[right]) ? map.get(fruits[right]) + 1 : 1;
-            map.put(fruits[right] , temp);
-            val++;
-            while(left < right && map.size() > 2){
-                if(map.get(fruits[left]) <= 1) map.remove(fruits[left]);
-                else map.put(fruits[left] , map.get(fruits[left]) - 1);
-                val--;
-                left++;
+        int l = 0;
+        int max = 0;
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for(int r = 0 ; r < fruits.length; r++){
+            int x = fruits[r];
+            map.put(x, map.getOrDefault(x, 0) + 1);
+            while(map.size() == 3){
+                int y = fruits[l++];
+                map.put(y, map.get(y)-1);
+                if(map.get(y) == 0) map.remove(y);
             }
-            sol = Math.max(sol , val);
+           max = Math.max(max, r - l + 1); 
         }
-        return sol;
+        return max;
     }
 }
