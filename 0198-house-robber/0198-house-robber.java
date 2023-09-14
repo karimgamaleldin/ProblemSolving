@@ -10,6 +10,6 @@ class Solution {
             t = Math.max(o + nums[i] , t);
             o = temp;
         }
-        return Math.max(o,t);
+        return t;
     }
 }
