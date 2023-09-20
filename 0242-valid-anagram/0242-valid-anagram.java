@@ -1,16 +1,14 @@
 class Solution {
     public boolean isAnagram(String s, String t) {
         if(s.length() != t.length()) return false;
-        int[] sArr = new int[26];
-        int[] tArr = new int[26];
-        for(int i = 0 ; i < s.length() ; i++){
-            sArr[s.charAt(i) - 'a']++;
-            tArr[t.charAt(i) - 'a']++;
+        // bucket sort
+        int n = t.length();
+        int[] alph = new int[26];
+        for(int i = 0 ; i < n; i++){
+            alph[t.charAt(i) - 'a']++;
+            alph[s.charAt(i) - 'a']--;
         }
-        for(int i = 0 ; i < 26 ; i++){
-            if(sArr[i] != tArr[i]) return false;
-        }
+        for(int x : alph) if(x != 0) return false;
         return true;
-
     }
 }
