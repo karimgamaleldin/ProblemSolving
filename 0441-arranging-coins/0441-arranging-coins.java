@@ -1,19 +1,20 @@
 class Solution {
     public int arrangeCoins(int n) {
-        long start = 1;
-        long end = n;
-        long r = 0;
-        while(start <= end){
-            long mid = start + (end - start)/2;
-            long x = mid * (mid+1) / 2;
-            if( x == n ) return (int)mid;
-            if(x < n){
-                r = Math.max(mid , r);
-                start = mid + 1;
+        int l = 0;
+        int r = n;
+        int ans = 0;
+        while(l <= r){
+            int mid = l + (r - l) / 2;
+            long temp = (long) mid * (mid + 1) / 2;
+            if(temp == n) return mid;
+            if(temp < n){
+                ans = mid;
+                l = mid + 1;
+            }else{
+                if(temp - mid <= n) return mid - 1;
+                r = mid - 1;
             }
-            else end = mid - 1;
         }
-        return (int)r;
+        return ans;
     }
-    
 }
