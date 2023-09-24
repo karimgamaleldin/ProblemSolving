@@ -4,13 +4,10 @@ class Solution {
         int r = num;
         while(l <= r){
             int mid = l + (r - l) / 2;
-            long x = mid * (long) mid;
+            long x = (long) mid * mid;
             if(x == num) return true;
-            else if(x > num){
-                r = mid - 1;
-            }else{
-                l = mid + 1;
-            }
+            else if(x < num) l = mid + 1;
+            else r = mid - 1;
         }
         return false;
     }
