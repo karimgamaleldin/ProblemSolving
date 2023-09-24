@@ -11,7 +11,6 @@ class Solution {
                 ans = mid;
                 l = mid + 1;
             }else{
-                if(temp - mid <= n) return mid - 1;
                 r = mid - 1;
             }
         }
