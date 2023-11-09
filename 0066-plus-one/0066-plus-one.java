@@ -1,15 +1,17 @@
 class Solution {
     public int[] plusOne(int[] digits) {
-        int n = digits.length;
-        int carry = 1;
-        int[] ans = new int[n + 1];
-        for(int i = n; i >= 1; i--){
-            int x = digits[i - 1] + carry;
-            ans[i] = x % 10;
-            carry = x / 10;
+        int c = 1;
+        for(int i = digits.length - 1; i >= 0; i--){
+            int num = digits[i];
+            digits[i] = (num + c) % 10;
+            c = (num + c) / 10;
         }
-        ans[0] = carry;
-        if(ans[0] != 0) return ans;
-        return Arrays.copyOfRange(ans, 1, n + 1);
+        if(c != 0){
+            int[] ans = new int[digits.length + 1];
+            ans[0] = c;
+            for(int i = 1; i < digits.length + 1; i++) ans[i] = digits[0];
+            return ans;
+        }
+        return digits;
     }
 }
