@@ -9,11 +9,12 @@ class Solution {
             if(c == '-') continue;
             if(count == k){
                 count = 0;
-                sb.insert(0, '-');
+                sb.append('-');
             }
-            sb.insert(0, c);
+            sb.append(c);
             count++;
         }
+        sb.reverse();
         return sb.toString();
     }
 }
