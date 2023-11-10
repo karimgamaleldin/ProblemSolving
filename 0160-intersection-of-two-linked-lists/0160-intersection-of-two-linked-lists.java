@@ -18,16 +18,5 @@ public class Solution {
             b = b == null ? headA : b.next;
         }
         return a;
-        // HashSet<ListNode> set = new HashSet<ListNode>();
-        // while(headA != null){
-        //     set.add(headA);
-        //     headA = headA.next;
-        // }
-        // while(headB != null){
-        //     if(set.contains(headB)) return headB;
-        //     headB = headB.next;
-        // }
-        // return null;
-        
     }
 }
