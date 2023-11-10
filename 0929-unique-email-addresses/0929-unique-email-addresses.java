@@ -1,28 +1,17 @@
 class Solution {
     public int numUniqueEmails(String[] emails) {
-        HashSet<String> em = new HashSet<>();
+        HashSet<String> set = new HashSet<>();
         for(String e : emails){
-            String st = processEmail(e);
-            em.add(st);
+            String[] t = e.split("@");
+            String x = fix(t[0]) + "@" + t[1];
+            set.add(x);
         }
-        return em.size();
+        return set.size();
     }
-    public String processEmail(String email){
+    public String fix(String s){
         StringBuilder sb = new StringBuilder();
-        boolean ignore = false;
-        for(int i = 0 ; i < email.length() ; i++){
-            char c = email.charAt(i);
-            if(c == '@'){
-                sb.append(email.substring(i, email.length()));
-                break;
-            }else{
-                if(c == '+'){
-                    ignore = true;
-                }
-                else if(!ignore){
-                    if(c != '.') sb.append(c);
-                }
-            }
+        for(int i = 0 ; i < s.length() && s.charAt(i) != '+' ; i++){
+            if(s.charAt(i) != '.') sb.append(s.charAt(i));
         }
         return sb.toString();
     }
