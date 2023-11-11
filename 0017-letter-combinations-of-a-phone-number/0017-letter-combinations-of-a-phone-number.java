@@ -1,21 +1,22 @@
 class Solution {
-    char[][] s = new char[][]{{'a','b','c'} , {'d','e','f'} , {'g','h','i'} ,{'j','k','l'} , {'m','n','o'} , {'p','q','r','s'} , {'t','u','v'} , {'w','x','y','z'}} ;
+    static char[][] phonePad = new char[][]{{'a','b','c'}, {'d','e','f'},{'g','h','i'},{'j','k','l'},{'m','n','o'},{'p','q','r','s'},{'t','u','v'},{'w','x','y','z'}};
     public List<String> letterCombinations(String digits) {
-        List<String> ans = new ArrayList<>();
-        if(digits.length() == 0) return ans;
+        List<String> res = new LinkedList<>();
+        if(digits.length() == 0) return res;
         StringBuilder sb = new StringBuilder();
-        backtrack(ans , sb , 0 , digits);
-        return ans;
+        backtrack(res, sb, digits, 0);
+        return res;
     }
-    public void backtrack(List<String> ans , StringBuilder sb , int i , String digits){
+    private void backtrack(List<String> res, StringBuilder sb, String digits, int i){
         if(i == digits.length()){
-            ans.add(sb.toString());
+            res.add(sb.toString());
             return;
         }
-        char[] chars = s[digits.charAt(i) - '2'];
-        for(char c : chars){
-            sb.append(c);
-            backtrack(ans , sb , i + 1 , digits);
+        char c = digits.charAt(i);
+        char[] arr = phonePad[c - '2'];
+        for(char a : arr){
+            sb.append(a);
+            backtrack(res, sb, digits, i + 1);
             sb.deleteCharAt(sb.length() - 1);
         }
     }
