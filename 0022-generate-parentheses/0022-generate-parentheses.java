@@ -1,25 +1,25 @@
 class Solution {
     public List<String> generateParenthesis(int n) {
-        List<String> ans = new ArrayList<>();
+        List<String> list = new LinkedList();
         StringBuilder sb = new StringBuilder();
-        backtrack(n , sb , ans , 0 , 0);
-        return ans;
+        backtrack(list, sb, n, n);
+        return list;
     }
-    public static void backtrack(int n , StringBuilder sb , List<String> ans , int left , int right){
-        if(left == n && right == n){
-            ans.add(sb.toString());
-            return;
+    
+    private void backtrack(List<String> list, StringBuilder sb, int i, int j){
+        if(i == 0 && j == 0){
+            list.add(sb.toString());
         }
-        if(left < n){
+        if(i > 0){
             sb.append('(');
-            backtrack(n , sb , ans , left + 1 , right);
-            sb.deleteCharAt(-1 + sb.length());
+            backtrack(list, sb, i - 1, j);
+            sb.deleteCharAt(sb.length() - 1);
         }
         
-        if(right < left){
+        if(j > i){
             sb.append(')');
-            backtrack(n , sb , ans , left , right + 1);
-            sb.deleteCharAt(-1 + sb.length());
+            backtrack(list, sb, i, j - 1);
+            sb.deleteCharAt(sb.length() - 1);
         }
     }
 }
