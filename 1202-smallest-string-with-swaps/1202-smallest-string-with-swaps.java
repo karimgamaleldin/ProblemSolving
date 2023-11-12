@@ -1,41 +1,45 @@
 class Solution {
     public String smallestStringWithSwaps(String s, List<List<Integer>> pairs) {
         UnionFind uf = new UnionFind(s.length());
-        for(int i = 0 ; i < pairs.size() ; i++){
-            uf.union(pairs.get(i).get(0) , pairs.get(i).get(1));
+        for(List<Integer> p : pairs){
+            uf.union(p.get(0), p.get(1));
         }
-        String res = uf.findLex(s);
-        return res;
+        return uf.findLex(s);
         
     }
+    
     static class UnionFind{
-        int[] root;
         int[] rank;
+        int[] root;
+        int count;
+        
         public UnionFind(int n){
-            this.root = new int[n];
             this.rank = new int[n];
-            for(int i = 0 ; i < n ; i++){
-                root[i] = i;
-                rank[i] = 1;
+            this.root = new int[n];
+            for(int i = 0 ; i < n; i++){
+                this.root[i] = i;
+                this.rank[i] = i;
             }
-        }
-        public int find(int x){
-            if(x == -1 || root[x] == x) return x;
-            return root[x] = find(root[x]);
-        }
-        public void union(int x , int y){
-            int rootX = find(x);
-            int rootY = find(y);
-            if(rootX != rootY){
-                if(rank[rootX] > rank[rootY]) root[rootY] = rootX;
-                else if(rank[rootY] > rank[rootX]) root[rootX] = rootY;
-                else{
-                    root[rootY] = rootX;
-                    rank[rootX]++;
-                }
-            }
+            this.count = n;
         }
         
+        public int find(int x){
+            if(root[x] == x) return x;
+            return root[x] = find(root[x]);
+        }
+        
+        public void union(int x, int y){
+            int rootX = find(x);
+            int rootY = find(y);
+            if(rootX == rootY) return;
+            if(rank[rootX] < rank[rootY]) root[rootX] = rootY;
+            else if(rank[rootY] < rank[rootX]) root[rootY] = rootX;
+            else{
+                root[rootX] = rootY;
+                rank[rootY] += 1;
+            }
+            count--;
+        }
         public String findLex(String w){
             HashMap<Integer , PriorityQueue<Character>> map = new HashMap<>();
             for(int i = 0 ; i < w.length() ; i++){
