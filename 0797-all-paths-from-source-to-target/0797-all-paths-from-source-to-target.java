@@ -1,21 +1,21 @@
 class Solution {
     public List<List<Integer>> allPathsSourceTarget(int[][] graph) {
-        List<List<Integer>> res = new ArrayList<>();
-        List<Integer> curr = new ArrayList<>(); // graph is acyclic we don't need a seen
-        curr.add(0);
-        bt(res , curr , graph , 0);
-        return res;
+        List<List<Integer>> sol = new LinkedList<>();
+        LinkedList<Integer> list = new LinkedList<>();
+        list.add(0);
+        backtrack(sol, graph, list ,0);
+        return sol;
     }
-    public void bt(List<List<Integer>> res , List<Integer> curr , int[][] graph , int i){
-        if(i == graph.length - 1){
-            res.add(new ArrayList<>(curr));
+    public void backtrack(List<List<Integer>> sol, int[][] graph, LinkedList<Integer> list, int curr){
+        if(curr == graph.length - 1){
+            sol.add(new LinkedList<>(list));
             return;
         }
-        int[] g = graph[i];
-        for(int k : g){
-            curr.add(k);
-            bt(res , curr , graph , k);
-            curr.remove(curr.size() - 1);
+        int[] g = graph[curr];
+        for(int i : g){
+            list.add(i);
+            backtrack(sol, graph, list, i);
+            list.remove(list.size() - 1);
         }
     }
 }
