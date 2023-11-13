@@ -1,23 +1,20 @@
 class Solution {
-    int[][] memo;
     public int maxProfit(int[] prices, int fee) {
         int n = prices.length;
-        this.memo = new int[n][2];
-        for(int i = 0 ; i < n ; i++) Arrays.fill(memo[i] , Integer.MIN_VALUE);
-        return dp(0 , 0 , prices , fee);
+        int[][] dp = new int[n + 1][2];
+        for(int i = n - 1; i>=0 ; i--){
+            dp[i][0] = Math.max(dp[i + 1][1] - prices[i] - fee, dp[i + 1][0]);
+            dp[i][1] = Math.max(dp[i + 1][0] + prices[i], dp[i + 1][1]);
+        }
+        // printMatrix(dp);
+        return dp[0][0];
     }
-    public int dp(int i , int state , int[] prices , int fee){
-        if(i == prices.length) return 0;
-        if(memo[i][state] != Integer.MIN_VALUE){
-            return memo[i][state];
+    public static void printMatrix(int[][] matrix) {
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                System.out.print(matrix[i][j] + " ");
+            }
+            System.out.println(); // New line after each row
         }
-        int ans = 0;
-        if(state == 0){
-            ans = Math.max(dp(i+1,1,prices,fee) - prices[i] - fee , dp(i+1,0,prices,fee));
-        }else{
-            ans = Math.max(dp(i+1,0,prices,fee) + prices[i] , dp(i+1,1,prices,fee));
-        }
-        memo[i][state] = ans;
-        return ans;
     }
 }
