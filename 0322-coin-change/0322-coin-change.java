@@ -1,19 +1,18 @@
 class Solution {
     public int coinChange(int[] coins, int amount) {
-        int size = amount + 1;
-        int[] tab = new int[size];
-        tab[0] = 0;
-        for(int i = 0 ; i < coins.length && coins[i] <= amount ; i++) tab[coins[i]] = 1;
-        for(int i = 1 ; i <= amount ; i++){
-            tab[i] = Integer.MAX_VALUE; // To know if not possible
-            for(int coin : coins){
-                int x = i - coin;
-                if(x < 0) continue;
-                if(tab[x] != Integer.MAX_VALUE){
-                    tab[i] = Math.min(tab[x] + 1 , tab[i]);
-                }
+        int[] dp = new int[amount  + 1];
+        Arrays.fill(dp, -1);
+        dp[0] = 0;
+        for(int i = 0; i <= amount ; i++){
+            int min = Integer.MAX_VALUE;
+            for(int c: coins){
+                if(c > i) continue;
+                int x = i - c;
+                if(dp[x] != -1) min = Math.min(dp[x], min);
             }
+            if(min != Integer.MAX_VALUE) dp[i] = min + 1;
         }
-        return tab[amount] != Integer.MAX_VALUE ? tab[amount] : -1;
+        // for(int n : dp) System.out.print(n + " ");
+        return dp[amount];
     }
 }
