@@ -1,26 +1,19 @@
 class Solution {
     public int maxProfit(int[] prices) {
-        // int n = prices.length;
-        // int[][] tab = new int[n + 1][2];
-        // for(int i = n - 1 ; i >= 0; i--){
-        //     tab[i][0] = Math.max(tab[i + 1][1] - prices[i], tab[i + 1][0]);
-        //     tab[i][1] = Math.max(tab[i + 1][0] + prices[i], tab[i + 1][1]);
-        // }
-        // return tab[0][0];
-        int total = 0;
-        int min = Integer.MAX_VALUE;
-        int max = Integer.MAX_VALUE;
-        for(int i = 0; i < prices.length; i++){
-            if(prices[i] < max){
-                total += max - min;
-                max = prices[i];
-                min = prices[i];
-            }
-            else{
-                max = prices[i];
-            }
+        int n = prices.length;
+        int[][] memo = new int[n][2];
+        for(int[] me : memo) Arrays.fill(me, -1);
+        return dp(prices, memo, 0, 0);
+    }
+    
+    public int dp(int[] prices, int[][] memo, int i, int j){
+        if(i == prices.length) return 0;
+        if(memo[i][j] != -1) return memo[i][j];
+        if(j == 0){
+            memo[i][j] = Math.max(dp(prices, memo, i + 1, j), dp(prices, memo, i + 1, 1) - prices[i]);
+        }else{
+            memo[i][j] = Math.max(dp(prices, memo, i + 1, j), dp(prices, memo, i + 1, 0) + prices[i]);
         }
-        total += max - min;
-        return total;
+        return memo[i][j];
     }
 }
