@@ -1,17 +1,20 @@
 class Solution {
     public int numDecodings(String s) {
-        int n = s.length();
-        int[] dp = new int[n + 1];
-        dp[n] = 1;
-        dp[n - 1] = s.charAt(n - 1) == '0' ? 0 : 1;
-        for(int i = n - 2; i >=0  ; i--){
-            char c = s.charAt(i);
-            if(c == '0') dp[i] = 0;
-            else{
-                dp[i] = dp[i + 1];
-                if(Integer.parseInt(s.substring(i , i + 2)) < 27) dp[i] += dp[i + 2];
-            }
-        }
-        return dp[0];
+        int[] memo = new int[s.length()];
+        Arrays.fill(memo, -1);
+        return dp(memo, s, 0);
+    }
+    
+    public int dp(int[] memo, String s, int i){
+        if(i == s.length()) return 1;
+        if(i > s.length()) return 0;
+        if(s.charAt(i) == '0') return 0;
+        if(memo[i] != -1) return memo[i];
+        int x = 0;
+        char c = s.charAt(i);
+        x += dp(memo, s, i+1);
+        if(c == '1' || (i < s.length() - 1 && c == '2' && s.charAt(i + 1) < '7')) x += dp(memo, s, i + 2);
+        memo[i] = x;
+        return x;
     }
 }
