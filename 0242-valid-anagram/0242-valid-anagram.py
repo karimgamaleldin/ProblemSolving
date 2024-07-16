@@ -9,10 +9,6 @@ class Solution:
             s_dict[s[i]] = s_dict.get(s[i], 0) + 1
             t_dict[t[i]] = t_dict.get(t[i], 0) + 1
             
-        for k in s_dict.keys():
-            if s_dict[k] != t_dict.get(k, -1):
-                return False
-        return True
-        
+        return s_dict == t_dict
         
         
