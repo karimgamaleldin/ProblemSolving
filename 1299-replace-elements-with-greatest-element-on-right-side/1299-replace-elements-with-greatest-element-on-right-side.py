@@ -1,8 +1,9 @@
 class Solution:
     def replaceElements(self, arr: List[int]) -> List[int]:
-        ans = [-1]
+        arr_len = len(arr)
+        sol = [-1] * arr_len
         right = arr[-1]
-        for i in range(len(arr) - 1, 0, -1):
-            right = right if right >= arr[i] else arr[i]
-            ans.append(right)
-        return ans[::-1]
+        for i in range(arr_len-2, -1, -1):
+            sol[i] = right
+            right = max(arr[i], right)
+        return sol
