@@ -2,9 +2,17 @@ class Solution:
     def isAnagram(self, s: str, t: str) -> bool:
         if len(s) != len(t):
             return False
-        dict_s = {}
-        dict_t = {}
+        
+        s_dict = {}
+        t_dict = {}
         for i in range(len(s)):
-            dict_s[s[i]] = dict_s.get(s[i], 0) + 1
-            dict_t[t[i]] = dict_t.get(t[i], 0) + 1
-        return dict_s == dict_t
+            s_dict[s[i]] = s_dict.get(s[i], 0) + 1
+            t_dict[t[i]] = t_dict.get(t[i], 0) + 1
+            
+        for k in s_dict.keys():
+            if s_dict[k] != t_dict.get(k, -1):
+                return False
+        return True
+        
+        
+        
