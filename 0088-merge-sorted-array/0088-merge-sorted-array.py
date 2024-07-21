@@ -3,16 +3,13 @@ class Solution:
         """
         Do not return anything, modify nums1 in-place instead.
         """
-        i = n - 1
-        j = m - 1
-        k = n + m - 1
-        while i >= 0 or j >= 0:
-            val1 = nums1[j] if j >= 0 else -float('inf')
-            val2 = nums2[i] if i >= 0 else -float('inf')
-            if val1 > val2:
-                nums1[k] = nums1[j]
-                j -= 1
+        m, n = m-1, n-1
+        while m >= 0 and n >= 0:
+            if nums1[m] > nums2[n]:
+                nums1[m+n+1] = nums1[m]
+                m -= 1
             else:
-                nums1[k] = nums2[i]
-                i -= 1
-            k -= 1
+                nums1[m+n+1] = nums2[n]
+                n -= 1
+        if n > -1:
+            nums1[:n+1] = nums2[:n+1] 
