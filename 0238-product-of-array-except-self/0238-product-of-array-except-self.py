@@ -1,9 +1,7 @@
 class Solution:
     def productExceptSelf(self, nums: List[int]) -> List[int]:
-        n, zeros = len(nums), nums.count(0)
+        n = len(nums)
         ans = [0] * n
-        # if zeros >= 2:
-        #     return ans
         prefixes = [1] * n
         suffixes = [1] * n
         for i in range(n - 1):
